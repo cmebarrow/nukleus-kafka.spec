@@ -183,6 +183,17 @@ public class FetchIT
 
     @Test
     @Specification({
+        "${scripts}/fetch.key.no.offsets.message/client",
+        "${scripts}/fetch.key.no.offsets.message/server"})
+    public void shouldReceiveMessageUsingFetchKeyWithEmptyOffsetsArray() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/fetch.key.zero.offset.messages/client",
         "${scripts}/fetch.key.zero.offset.messages/server"})
     public void shouldReceiveMessagesUsingFetchKey() throws Exception
@@ -216,12 +227,90 @@ public class FetchIT
 
     @Test
     @Specification({
+        "${scripts}/header.and.fetch.key.zero.offset.message/client",
+        "${scripts}/header.and.fetch.key.zero.offset.message/server"})
+    public void shouldReceiveMessageUsingFetchKeyAndHeader() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/header.zero.offset.message/client",
+        "${scripts}/header.zero.offset.message/server"})
+    public void shouldReceiveMessageUsingHeader() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/header.zero.offset.messages/client",
+        "${scripts}/header.zero.offset.messages/server"})
+    public void shouldReceiveMessagesUsingHeader() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/headers.and.fetch.key.zero.offset.message/client",
+        "${scripts}/headers.and.fetch.key.zero.offset.message/server"})
+    public void shouldReceiveMessageUsingFetchKeyAndMultipleHeaders() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/headers.zero.offset.messages.historical/client",
+        "${scripts}/headers.zero.offset.messages.historical/server"})
+    public void shouldReceiveHistoricalMessagesUsingHeaders() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/zero.offset.message/client",
         "${scripts}/zero.offset.message/server"})
     public void shouldReceiveMessageAtZeroOffset() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/no.offsets.message/client",
+        "${scripts}/no.offsets.message/server"})
+    public void shouldReceiveMessageAtZeroOffsetWithEmptyOffsetsArray() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/zero.offset.and.reset/client",
+        "${scripts}/zero.offset.and.reset/server"})
+    public void shouldUnsubscribe() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.notifyBarrier("FETCH_REQUEST_RECEIVED");
         k3po.finish();
     }
 
@@ -263,6 +352,61 @@ public class FetchIT
         "${scripts}/zero.offset.messagesets.fanout/client",
         "${scripts}/zero.offset.messagesets.fanout/server"})
     public void shouldFanoutMessageSetsAtZeroOffset() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/ktable.message/client",
+        "${scripts}/ktable.message/server"})
+    public void shouldReceiveKTableMessage() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/ktable.messages/client",
+        "${scripts}/ktable.messages/server"})
+    public void shouldReceiveKTableMessages() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/ktable.messages.header.multiple.matches/client",
+        "${scripts}/ktable.messages.header.multiple.matches/server"})
+    public void shouldReceiveKTableMessagesFilteredByHeader() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/ktable.messages.historical/client",
+        "${scripts}/ktable.messages.historical/server"})
+    public void shouldReceiveKTableHistoricalMessages() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/ktable.messages.multiple.nodes/client",
+        "${scripts}/ktable.messages.multiple.nodes/server"})
+    public void shouldReceiveKTableMessagesFromMultipleNodes() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
