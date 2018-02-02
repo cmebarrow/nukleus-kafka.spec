@@ -1,0 +1,31 @@
+# Starts kafka broker with one node
+# Usage:  docker stack deploy -c docker-stack-one-node.yml Test
+version: '3.4'
+services:
+
+  zookeeper:
+    image: wurstmeister/zookeeper
+    networks:
+      - internal-plane
+
+  kafka:
+    image: wurstmeister/kafka:1.0.0
+    networks:
+      - internal-plane
+    environment:
+      - KAFKA_CREATE_TOPICS=test:2:1,compact:1:1
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    depends_on:
+      - zookeeper
+    ports:
+      - 9092:9092/tcp
+
+networks:
+  internal-plane:
+    driver: overlay
+    ipam:
+      config:
+        - subnet: 10.5.0.0/24
+    attachable: true
+

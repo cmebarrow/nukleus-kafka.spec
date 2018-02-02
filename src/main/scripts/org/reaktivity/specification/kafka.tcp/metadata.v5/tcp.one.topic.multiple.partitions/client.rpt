@@ -31,7 +31,7 @@ write 1         # [TopicName] array length
   write 4s "test"
 write [0x00]    # allow_auto_topic_creation (boolean)
 
-read 134        # Size int32
+read [0..4] # 134        # Size int32
 read ${newMetadataRequestId} # CorrelationId int32
 read [0..4]     # throttle_time_ms int32
 read 1          # brokers array length

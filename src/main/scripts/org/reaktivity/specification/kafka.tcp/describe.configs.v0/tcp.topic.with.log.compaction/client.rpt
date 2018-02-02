@@ -14,7 +14,6 @@
 # under the License.
 #
 
-# This script works against a kafka broker listening on the following address:
 property brokerUrl "tcp://docker:9092"
 
 property newMetadataRequestId ${kafka:newRequestId()}

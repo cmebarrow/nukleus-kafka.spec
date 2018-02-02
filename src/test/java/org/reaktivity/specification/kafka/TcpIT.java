@@ -29,12 +29,13 @@ import org.kaazing.k3po.junit.rules.K3poRule;
 
 /**
  * This test runs test cases which also work when run directly against a real Kafka broker.
- * Comment out the server scripts to run against a real Kafka broker.
+ * Unignore the ignored methods to run against a real Kafka broker,  which can be started using one
+ * of the docker stack config files in src/test/docker.
  */
 public class TcpIT
 {
     private final K3poRule k3po = new K3poRule()
-        .addScriptRoot("scripts", "org/reaktivity/specification/kafka");
+        .addScriptRoot("scripts", "org/reaktivity/specification/kafka.tcp");
 
     private final TestRule timeout = new DisableOnDebug(new Timeout(5, SECONDS));
 
@@ -82,6 +83,106 @@ public class TcpIT
     @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
     public void shouldRequestMetadataForOneTopicMultipleNodes() throws Exception
     {
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/client",
+        "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/server"
+    })
+    @ScriptProperty("networkConnect \"tcp://localhost:9092\"")
+    public void shouldFetchDataForOneTopicMultiplePartitions() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/fetch.v5/tcp.zero.offset.no.messages.multiple.partitions/client",
+        "${scripts}/fetch.v5/tcp.zero.offset.no.messages.multiple.partitions/server"
+    })
+    @ScriptProperty({"networkConnect \"tcp://localhost:9092\"",
+                     "networkAccept \"tcp://localhost:9092\""
+    })
+    public void shouldFetchNoDataForOneTopicMultiplePartitions() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/describe.configs.v0/tcp.topic.with.log.compaction/client"
+    })
+    @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
+    public void shouldRequestConfigForTopicWithLogCompactionBroker() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/describe.configs.v0/tcp.topic.with.no.log.compaction/client"
+    })
+    @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
+    public void shouldRequestConfigForTopoutLogCompactionBroker() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/metadata.v5/tcp.one.topic.multiple.partitions/client"
+    })
+    @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
+    public void shouldRequestMetadataForOneTopicMultiplePartitionsSingleNodeBroker() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/metadata.v5/tcp.one.topic.multiple.nodes/client"
+    })
+    @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
+    public void shouldRequestMetadataForOneTopicMultipleNodesBroker() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/client"
+    })
+    @ScriptProperty("networkConnect \"tcp://localhost:9092\"")
+    public void shouldFetchDataForOneTopicMultiplePartitionsBroker() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    // @Ignore
+    @Specification({
+        "${scripts}/fetch.v5/tcp.zero.offset.no.messages.multiple.partitions/client"
+    })
+    @ScriptProperty("networkConnect \"tcp://localhost:9092\"")
+    public void shouldFetchNoDataForOneTopicMultiplePartitionsBroker() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
         k3po.finish();
     }
 
