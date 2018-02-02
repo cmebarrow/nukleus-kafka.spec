@@ -117,6 +117,7 @@
           </includes>
           <excludes>
             <exclude>src/conf/**</exclude>
+            <exclude>src/test/docker/**</exclude>
           </excludes>
           <mapping>
             <idl>SLASHSTAR_STYLE</idl>

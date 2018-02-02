@@ -44,33 +44,38 @@ write 1         # [TopicName] array length
   write 4s "test"
 write [0x00]    # allow_auto_topic_creation (boolean)
 
-read 107        # Size int32
+read 134        # Size int32
 read ${newMetadataRequestId} # CorrelationId int32
 read [0..4]     # throttle_time_ms int32
 read 1          # brokers array length
-  read 1        # broker id
-  read 7s "broker1"
-  read 9093     # port int32
+  read 1001     # broker id
+  read 5s "kafka"
+  read 9092     # port int32
   read -1s      # rack string (null)
-read 9s "cluster 1"
-read 1          # controller broker id
+read (short:clusterNameLength)
+read [0..${clusterNameLength}] # cluster name
+read 1001       # controller broker id
 read 1          # topic array length
   read 0s       # error code
   read 4s "test"
   read [0x00]   # is_internal boolean
   read 2        # partition array length
     read 0s     # error code
-    read 0      # partition
-    read 1      # leader
-    read 0      # replicas array (empty)
-    read -1     # isr array (null)
+    read 1      # partition
+    read 1001   # leader
+    read 1      # replicas array 
+    read 1001   # node having a replica
+    read 1      # isr array
+    read 1001   # node having an in sync replica
     read 0      # offline replicas array (empty)
 
     read 0s     # error code
-    read 1      # partition
-    read 1      # leader
-    read 0      # replicas array (empty)
-    read -1     # isr array (null)
+    read 0      # partition
+    read 1001   # leader
+    read 1      # replicas array 
+    read 1001   # node having a replica
+    read 1      # isr array
+    read 1001   # node having an in sync replica
     read 0      # offline replicas array (empty)
 read notify METADATA_RECEIVED
 
@@ -108,7 +113,7 @@ connect await METADATA_RECEIVED
   option nukleus:transmission "duplex"
   option nukleus:byteorder "network"
 
-write nukleus:begin.ext ${tcp:beginExtRemoteHost("broker1", 9093)}
+write nukleus:begin.ext ${tcp:beginExtRemoteHost("broker1", 9092)}
 
 connected
 
@@ -152,37 +157,7 @@ read 2          # Number of partition responses
     read 0x44   # Length
     read 0x00   # Partition leader epoque
     read [0x02] # Magic
-    read 0x4e8723aa         # CRC32
-    read 0x00s  # attributes
-    read 0      # last offset delta
-    read (long:timestamp)   # first timestamp
-    read ${timestamp}       # maximum timestamp
-    read -1L    # producer ID
-    read -1s    # producer epoque
-    read -1     # first sequence
-    read 1      # Number of records
-    read ${kafka:varint(18)} # Record length
-    read [0x00] # attributes
-    read ${kafka:varint(0)} # timestamp delta
-    read ${kafka:varint(0)} # offset delta
-    read ${kafka:varint(-1)} # key length
-    read ${kafka:varint(12)} # value length
-    read "Hello, world"     # value
-    read ${kafka:varint(0)} # headers array length
-  
-    read 1      # Partition
-    read 0x00s
-    read 0x01L  # high_watermark
-    read -1L    # last_stable_offset
-    read 0L     # log_start_offset
-    read -1     # aborted_transactions (null)
-    read 0x50   # Length of the record batch
-                # Start of RecordBatch
-    read 0x00L  # First offset 
-    read 0x44   # Length
-    read 0x00   # Partition leader epoque
-    read [0x02] # Magic
-    read 0x4e8723aa         # CRC32
+    read -287921974         # CRC32
     read 0x00s  # attributes
     read 0      # last offset delta
     read (long:timestamp)   # first timestamp
@@ -198,4 +173,34 @@ read 2          # Number of partition responses
     read ${kafka:varint(-1)} # key length
     read ${kafka:varint(12)} # value length
     read "Hello, again"     # value
+    read ${kafka:varint(0)} # headers array length
+  
+    read 1      # Partition
+    read 0x00s
+    read 0x01L  # high_watermark
+    read -1L    # last_stable_offset
+    read 0L     # log_start_offset
+    read -1     # aborted_transactions (null)
+    read 0x50   # Length of the record batch
+                # Start of RecordBatch
+    read 0x00L  # First offset 
+    read 0x44   # Length
+    read 0x00   # Partition leader epoque
+    read [0x02] # Magic
+    read -1918591952        # CRC32
+    read 0x00s  # attributes
+    read 0      # last offset delta
+    read (long:timestamp)   # first timestamp
+    read ${timestamp}       # maximum timestamp
+    read -1L    # producer ID
+    read -1s    # producer epoque
+    read -1     # first sequence
+    read 1      # Number of records
+    read ${kafka:varint(18)} # Record length
+    read [0x00] # attributes
+    read ${kafka:varint(0)} # timestamp delta
+    read ${kafka:varint(0)} # offset delta
+    read ${kafka:varint(-1)} # key length
+    read ${kafka:varint(12)} # value length
+    read "Hello, world"     # value
     read ${kafka:varint(0)} # headers array length

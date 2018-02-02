@@ -18,6 +18,7 @@ package org.reaktivity.specification.kafka;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.rules.RuleChain.outerRule;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.DisableOnDebug;
@@ -119,7 +120,7 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
+    @Ignore
     @Specification({
         "${scripts}/describe.configs.v0/tcp.topic.with.log.compaction/client"
     })
@@ -130,7 +131,7 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
+    @Ignore
     @Specification({
         "${scripts}/describe.configs.v0/tcp.topic.with.no.log.compaction/client"
     })
@@ -141,7 +142,7 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
+    @Ignore
     @Specification({
         "${scripts}/metadata.v5/tcp.one.topic.multiple.partitions/client"
     })
@@ -152,7 +153,7 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
+    @Ignore
     @Specification({
         "${scripts}/metadata.v5/tcp.one.topic.multiple.nodes/client"
     })
@@ -163,7 +164,7 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
+    @Ignore
     @Specification({
         "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/client"
     })
@@ -176,7 +177,7 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
+    @Ignore
     @Specification({
         "${scripts}/fetch.v5/tcp.zero.offset.no.messages.multiple.partitions/client"
     })
