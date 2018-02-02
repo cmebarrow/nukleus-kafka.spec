@@ -92,7 +92,9 @@ public class TcpIT
         "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/client",
         "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/server"
     })
-    @ScriptProperty("networkConnect \"tcp://localhost:9092\"")
+    @ScriptProperty({"networkConnect \"tcp://localhost:9092\"",
+                     "networkAccept \"tcp://localhost:9092\""
+    })
     public void shouldFetchDataForOneTopicMultiplePartitions() throws Exception
     {
         k3po.start();
