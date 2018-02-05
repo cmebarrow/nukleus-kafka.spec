@@ -88,7 +88,6 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
     @Specification({
         "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/client",
         "${scripts}/fetch.v5/tcp.zero.offset.messages.multiple.partitions/server"
@@ -104,7 +103,6 @@ public class TcpIT
     }
 
     @Test
-    // @Ignore
     @Specification({
         "${scripts}/fetch.v5/tcp.zero.offset.no.messages.multiple.partitions/client",
         "${scripts}/fetch.v5/tcp.zero.offset.no.messages.multiple.partitions/server"

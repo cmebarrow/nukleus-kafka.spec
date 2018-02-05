@@ -112,7 +112,7 @@ read -1s        # client id
 read -1 
 read [0..4]
 read 1
-read [0..4]
+read [0..4]     # maximum bytes
 read [0x00]
 read 1
 read 0x04s "test"
