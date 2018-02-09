@@ -285,6 +285,18 @@ public class FetchIT
 
     @Test
     @Specification({
+        "${scripts}/zero.offset.message.response.exceeds.requested.256.bytes/client",
+        "${scripts}/zero.offset.message.response.exceeds.requested.256.bytes/server"})
+    public void shouldHandleResponseExceedingMaxFetchBytes() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.notifyBarrier("WRITE_FETCH_RESPONSE");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/ktable.message/client",
         "${scripts}/ktable.message/server"})
     public void shouldReceiveKtableMessage() throws Exception
@@ -371,6 +383,16 @@ public class FetchIT
         k3po.finish();
     }
 
+    @Test
+    @Specification({
+        "${scripts}/zero.offset.messages.multiple.partitions.partition.1/client",
+        "${scripts}/zero.offset.messages.multiple.partitions.partition.1/server"})
+    public void shouldReceiveMessagesAtZeroOffsetFromMultiplPartitionsPartition1() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
 
     @Test
     @Specification({
@@ -411,6 +433,17 @@ public class FetchIT
         "${scripts}/zero.offset.messages.multiple.partitions/client",
         "${scripts}/zero.offset.messages.multiple.partitions/server"})
     public void shouldReceiveMessagesAtZeroOffsetMultiplePartitions() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_SERVER");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/zero.offset.messages.multiple.partitions.max.bytes.256/client",
+        "${scripts}/zero.offset.messages.multiple.partitions.max.bytes.256/server"})
+    public void shouldReceiveMessagesAtZeroOffsetMultiplePartitionsMaxBytes256() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_SERVER");
