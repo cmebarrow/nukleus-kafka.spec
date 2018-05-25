@@ -69,10 +69,120 @@ public class ControlIT
 
     @Test
     @Specification({
+        "route.ext.header/client/nukleus",
+        "route.ext.header/client/controller"
+    })
+    public void shouldRouteClientWithHeaderCondition() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.headers/client/nukleus",
+        "route.ext.headers/client/controller"
+    })
+    public void shouldRouteClientWithHeaderConditions() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.multiple.headers/client/nukleus",
+        "route.ext.multiple.headers/client/controller"
+    })
+    public void shouldRouteClientWithMultipleRoutesDifferingOnlyInHeaders() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.multiple.networks/client/nukleus",
+        "route.ext.multiple.networks/client/controller"
+    })
+    public void shouldRouteClientWithMultipleNetworks() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "route.ext.multiple.topics/client/nukleus",
+        "route.ext.multiple.topics/client/controller"
+    })
+    public void shouldRouteClientWithMultipleTopics() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "unroute.ext/client/nukleus",
         "unroute.ext/client/controller"
     })
     public void shouldUnrouteClientWithExtension() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "unroute.ext.header/client/nukleus",
+        "unroute.ext.header/client/controller"
+    })
+    public void shouldUnrouteClientWithHeaderCondition() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "unroute.ext.headers/client/nukleus",
+        "unroute.ext.headers/client/controller"
+    })
+    public void shouldUnrouteClientWithHeaderConditions() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "unroute.ext.multiple.headers/client/nukleus",
+        "unroute.ext.multiple.headers/client/controller"
+    })
+    public void shouldUnrouteClientWithMultipleRoutesDifferingOnlyInHeaders() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "unroute.ext.multiple.networks/client/nukleus",
+        "unroute.ext.multiple.networks/client/controller"
+    })
+    public void shouldUnrouteClientWithMultipleNetworks() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "unroute.ext.multiple.topics/client/nukleus",
+        "unroute.ext.multiple.topics/client/controller"
+    })
+    public void shouldUnrouteClientWithMultipleTopics() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
