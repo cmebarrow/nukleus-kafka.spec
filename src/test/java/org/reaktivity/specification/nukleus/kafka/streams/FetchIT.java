@@ -86,6 +86,17 @@ public class FetchIT
 
     @Test
     @Specification({
+        "${scripts}/compacted.historical.large.message.subscribed.to.key/client",
+        "${scripts}/compacted.historical.large.message.subscribed.to.key/server"})
+    public void shouldReceiveLargeCompactedMessageMatchingKeyOnTwoClients() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/compacted.historical.uses.cached.key.after.unsubscribe/client",
         "${scripts}/compacted.historical.uses.cached.key.after.unsubscribe/server"})
     public void shouldReceiveCompactedMessagesUsingCachedKeyAfterUnsubscribe() throws Exception
@@ -155,6 +166,17 @@ public class FetchIT
 
     @Test
     @Specification({
+        "${scripts}/compacted.large.message.subscribed.to.key/client",
+        "${scripts}/compacted.large.message.subscribed.to.key/server"})
+    public void shouldReceiveLargeCompactedMessageMatchingKey() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/compacted.message/client",
         "${scripts}/compacted.message/server"})
     public void shouldReceiveCompactedMessage() throws Exception
@@ -206,6 +228,18 @@ public class FetchIT
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/compacted.messages.tombstone.repeated/client",
+        "${scripts}/compacted.messages.tombstone.repeated/server"})
+    public void shouldReceiveRepeatedTombstoneMessagesFromCompactedTopic() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.notifyBarrier("SUBSCRIBE_CLIENT");
         k3po.finish();
     }
 
@@ -280,6 +314,17 @@ public class FetchIT
         "${scripts}/compacted.header.messages.and.tombstone/client",
         "${scripts}/compacted.header.messages.and.tombstone/server"})
     public void shouldReceiveCompactedMessagesWithTombstone() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/compacted.header.repeated.tombstone/client",
+        "${scripts}/compacted.header.repeated.tombstone/server"})
+    public void shouldReceiveCompactedMessagesWithMultipleHeadersAndTombstone() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -501,6 +546,17 @@ public class FetchIT
 
     @Test
     @Specification({
+        "${scripts}/header.empty.value.message/client",
+        "${scripts}/header.empty.value.message/server"})
+    public void shouldReceiveMessageUsingHeaderEmptyValueCondition() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/header.zero.offset.message/client",
         "${scripts}/header.zero.offset.message/server"})
     public void shouldReceiveMessageUsingHeader() throws Exception
@@ -515,6 +571,17 @@ public class FetchIT
         "${scripts}/header.zero.offset.messages/client",
         "${scripts}/header.zero.offset.messages/server"})
     public void shouldReceiveMessagesUsingHeader() throws Exception
+    {
+        k3po.start();
+        k3po.notifyBarrier("ROUTED_CLIENT");
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
+        "${scripts}/header.zero.offset.repeated/client",
+        "${scripts}/header.zero.offset.repeated/server"})
+    public void shouldReceiveMessagesMatchingAnyOccurenceOfARepeatedHeader() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");
@@ -725,17 +792,6 @@ public class FetchIT
         "${scripts}/zero.offset.large.message/client",
         "${scripts}/zero.offset.large.message/server"})
     public void shouldReceiveLargeMessage() throws Exception
-    {
-        k3po.start();
-        k3po.notifyBarrier("ROUTED_CLIENT");
-        k3po.finish();
-    }
-
-    @Test
-    @Specification({
-        "${scripts}/zero.offset.large.response/client",
-        "${scripts}/zero.offset.large.response/server"})
-    public void shouldReceiveLargResponse() throws Exception
     {
         k3po.start();
         k3po.notifyBarrier("ROUTED_CLIENT");

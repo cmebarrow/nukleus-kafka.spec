@@ -73,7 +73,7 @@ read 4s "test"  # topic name
 read 1          # config_names count
 read 14s "cleanup.policy"
 
-write 55        # Size int32
+write 54        # Size int32
 write ${metadataRequestId}  # CorrelationId int32
 write 0         # throttle_time_ms int32
 write 1         # resources count
@@ -83,194 +83,238 @@ write [0x02]    # resource type
 write 4s "test" # topic name
 write 1         # config entries count
 write 14s "cleanup.policy"  # config name
-write 7s "compact"          # config  value
+write 6s "delete"           # config  value
 write [0x00]    # read_only boolean
 write [0x01]    # is_default boolean
 write [0x00]    # is_sensitive boolean
 
-# Live fetch connection
+# Fetch stream
 accepted
 read nukleus:begin.ext ${tcp:beginExtRemoteHost("broker1", 9093)}
 connected
 
-# first fetch request returns a live message
-read 65         # Size
-read 1s         # Fetch
-read 5s
+# Fetch request 1
+read 65
+read 1s         # API key (fetch)
+read 5s         # API version
 read (int:requestId)
-read -1s
-read -1
-read [0..4]
+read -1s        # client id
+read -1 
+read [0..4]     # max wait time millis
 read 1
-read [0..4]
+read 355        # max fetch bytes
 read [0x00]
 read 1
 read 4s "test"
 read 1
-read 0          # Partition
-read 0L         # offset
+read 0
+read 0L
 read -1L
-read [0..4]
+read [0..4]      # max partition bytes
 
-write 148       # Size
+# Kafka will exceed max fetch bytes to deliver at least one message
+write 397
 write ${requestId}
 write 0
 write 1
 write 4s "test"
-write 1
-write 0         # Partition
-write 0s        # partition error code
-write 1L        # high_watermark
-write -1L       # last_stable_offset
-write 0L        # log_start_offset
-write -1        # aborted_transactions (null)
-write 88       # length of record batch
+write 1         # number of partition responses
+write 0         # partition
+write 0s
+write 999L      # high watermark
+write -1L
+write 0L
+write -1
+write 337       # physical length of record batch
 write 0L        # first offset
-write 76        # length
-write 0
-write [0x02]
-write 0x4e8723aa
-write 0s
-write 0         # last offset delta (message at offset 3 was deleted)
-write ${newTimestamp}       # first timestamp
-write ${newTimestamp}       # maximum timestamp
-write -1L
-write -1s
-write -1        # first sequence
-write 1         # number of records
-
-write ${kafka:varint(26)}   # Record length
-write [0x00]    # attributes
-write ${kafka:varint(0)}    # timestamp delta
-write ${kafka:varint(0)}    # offset delta
-write ${kafka:varint(8)}    # key length
-write "no match"
-write ${kafka:varint(12)}   # value length
-write "Hello, world"
-write [0x00]                # headers
-
-# second live fetch request
-read 65         # Size
-read 1s         # Fetch
-read 5s
-read (int:requestId)
-read -1s
-read -1
-read [0..4]
-read 1
-read [0..4]
-read [0x00]
-read 1
-read 4s "test"
-read 1
-read 0          # Partition
-read 1L         # offset
-read -1L
-read [0..4]
-
-write 172       # Size
-write ${requestId}
-write 0
-write 1
-write 4s "test"
-write 1
-write 0         # Partition
-write 0s        # partition error code
-write 4L        # high_watermark
-write -1L       # last_stable_offset
-write 0L        # log_start_offset
-write -1        # aborted_transactions (null)
-write 112       # length of record batch
-write 1L        # first offset
-write 100       # length
-write 0
-write [0x02]
-write 0x4e8723aa
-write 0s
-write 2         # last offset delta (message at offset 3 was deleted)
-write ${newTimestamp}       # first timestamp
-write ${newTimestamp}       # maximum timestamp
-write -1L
-write -1s
-write -1        # first sequence
-write 2         # number of records
-
-write ${kafka:varint(23)}   # Record length
-write [0x00]    # attributes
-write ${kafka:varint(0)}    # timestamp delta
-write ${kafka:varint(0)}    # offset delta
-write ${kafka:varint(5)}    # key length 
-write "match"
-write ${kafka:varint(12)}   # value length
-write "Hello second"
-write [0x00]                # headers
-
-write ${kafka:varint(26)}   # Record length
-write [0x00]    # attributes
-write ${kafka:varint(0)}    # timestamp delta
-write ${kafka:varint(1)}    # offset delta
-write ${kafka:varint(8)}    # key length
-write "no match"
-write ${kafka:varint(12)}   # value length
-write "Hello, third"
-write [0x00]                # headers
-
-
-# final live fetch request
-read 65         # Size
-read 1s         # Fetch
-read 5s         # version
-read (int:requestId)
-read -1s
-read -1
-read [0..4]
-read 1
-read [0..4]
-read [0x00]
-read 1
-read 4s "test"
-read 1
-read 0          # Partition
-read 4L         # offset
-read -1L
-read [0..4]
-
-write await DELIVER_FINAL_LIVE_RESPONSE
-
-write 145       # Size
-write ${requestId}
-write 0
-write 1
-write 4s "test"
-write 1
-write 0         # Partition
-write 0s        # partition error code
-write 5L        # high_watermark
-write -1L       # last_stable_offset
-write 0L        # log_start_offset
-write -1        # aborted_transactions (null)
-write 85        # length of record set
-write 4L        # first offset
-write 73        # length
+write 325       # length
 write 0
 write [0x02]
 write 0x4e8723aa
 write 0s
 write 0         # last offset delta
-write ${newTimestamp}       # first timestamp
-write ${newTimestamp}       # maximum timestamp
+write ${newTimestamp}
+write ${newTimestamp}
 write -1L
 write -1s
-write -1        # first sequence
+write -1
 write 1         # number of records
 
-write ${kafka:varint(23)}   # Record length
+write ${kafka:varint(274)}  # Record length
+write [0x00]
+write ${kafka:varint(0)}    # timestamp delta
+write ${kafka:varint(0)}    # offset delta
+write ${kafka:varint(1)}    # key length
+write "k"
+write ${kafka:varint(266)}  # value length
+write ${kafka:randomBytes(266)}
+write [0x00]                # headers (none)
+
+# Fetch request 2 (first request repeated)
+read 65
+read 1s         # API key (fetch)
+read 5s         # API version
+read (int:requestId)
+read -1s        # client id
+read -1 
+read [0..4]     # max wait time millis
+read 1
+read 355        # max fetch bytes
+read [0x00]
+read 1
+read 4s "test"
+read 1
+read 0
+read 0L
+read -1L
+read [0..4]      # max partition bytes
+
+# Kafka will exceed max fetch bytes to deliver at least one message
+write 397
+write ${requestId}
+write 0
+write 1
+write 4s "test"
+write 1         # number of partition responses
+write 0         # partition
+write 0s
+write 999L      # high watermark
+write -1L
+write 0L
+write -1
+write 337       # physical length of record batch
+write 0L        # first offset
+write 325       # length
+write 0
+write [0x02]
+write 0x4e8723aa
+write 0s
+write 0         # last offset delta
+write ${newTimestamp}
+write ${newTimestamp}
+write -1L
+write -1s
+write -1
+write 1         # number of records
+
+write ${kafka:varint(274)}  # Record length
+write [0x00]
+write ${kafka:varint(0)}    # timestamp delta
+write ${kafka:varint(0)}    # offset delta
+write ${kafka:varint(1)}    # key length
+write "k"
+write ${kafka:varint(266)}  # value length
+write ${kafka:randomBytes(266)}
+write [0x00]                # headers (none)
+
+# Fetch request 3 (first request repeated)
+read 65
+read 1s         # API key (fetch)
+read 5s         # API version
+read (int:requestId)
+read -1s        # client id
+read -1 
+read [0..4]     # max wait time millis
+read 1
+read 355        # max fetch bytes
+read [0x00]
+read 1
+read 4s "test"
+read 1
+read 0
+read 0L
+read -1L
+read [0..4]      # max partition bytes
+
+# Kafka will exceed max fetch bytes to deliver at least one message
+write 397
+write ${requestId}
+write 0
+write 1
+write 4s "test"
+write 1         # number of partition responses
+write 0         # partition
+write 0s
+write 999L      # high watermark
+write -1L
+write 0L
+write -1
+write 337       # physical length of record batch
+write 0L        # first offset
+write 325       # length
+write 0
+write [0x02]
+write 0x4e8723aa
+write 0s
+write 0         # last offset delta
+write ${newTimestamp}
+write ${newTimestamp}
+write -1L
+write -1s
+write -1
+write 1         # number of records
+
+write ${kafka:varint(274)}  # Record length
+write [0x00]
+write ${kafka:varint(0)}    # timestamp delta
+write ${kafka:varint(0)}    # offset delta
+write ${kafka:varint(1)}    # key length
+write "k"
+write ${kafka:varint(266)}  # value length
+write ${kafka:randomBytes(266)}
+write [0x00]                # headers (none)
+
+# Live fetch request 4 (offset 1)
+read 65
+read 1s         # API key (fetch)
+read 5s         # API version
+read (int:requestId)
+read -1s        # client id
+read -1 
+read [0..4]     # max wait time millis
+read 1
+read 355        # max fetch bytes
+read [0x00]
+read 1
+read 4s "test"
+read 1
+read 0
+read 1L         # fetch offset
+read -1L
+read [0..4]     # max partition bytes
+
+write 140
+write ${requestId}
+write 0
+write 1
+write 4s "test"
+write 1         # number of partition responses
+write 0         # partition
+write 0s
+write 999L      # high watermark
+write -1L
+write 0L
+write -1
+write 80        # physical length of record batch
+write 1L        # first offset
+write 68        # length
+write 0
+write [0x02]
+write 0x4e8723aa
+write 0s
+write 0         # last offset delta
+write ${newTimestamp}
+write ${newTimestamp}
+write -1L
+write -1s
+write -1
+write 1         # number of records
+
+write ${kafka:varint(18)}   # record length
 write [0x00]    # attributes
 write ${kafka:varint(0)}    # timestamp delta
 write ${kafka:varint(0)}    # offset delta
-write ${kafka:varint(5)}    # key length
-write "match"
+write ${kafka:varint(-1)}   # key length
 write ${kafka:varint(12)}   # value length
-write "Hello fourth"
-write [0x00]
-
+write "Hello, world"
+write ${kafka:varint(0)}    # headers (none)
