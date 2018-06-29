@@ -56,6 +56,17 @@ public class TcpIT
 
     @Test
     @Specification({
+        "${scripts}/describe.configs.v0/tcp.topic.with.log.compaction.and.delete.retention/client",
+        "${scripts}/describe.configs.v0/tcp.topic.with.log.compaction.and.delete.retention/server"
+    })
+    @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
+    public void shouldRequestConfigForTopicWithLogCompactionAndDeleteRetention() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Specification({
         "${scripts}/describe.configs.v0/tcp.topic.with.no.log.compaction/client",
         "${scripts}/describe.configs.v0/tcp.topic.with.no.log.compaction/server"
     })
@@ -124,6 +135,17 @@ public class TcpIT
     })
     @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
     public void shouldRequestConfigForTopicWithLogCompactionBroker() throws Exception
+    {
+        k3po.finish();
+    }
+
+    @Test
+    @Ignore
+    @Specification({
+        "${scripts}/describe.configs.v0/tcp.topic.with.log.compaction.and.delete.retention/client"
+    })
+    @ScriptProperty("brokerUrl \"tcp://localhost:9092\"")
+    public void shouldRequestConfigForTopicWithLogCompactionAndDeleteRetentionBroker() throws Exception
     {
         k3po.finish();
     }

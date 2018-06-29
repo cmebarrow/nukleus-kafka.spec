@@ -21,26 +21,26 @@ property newMetadataRequestId ${kafka:newRequestId()}
 connect ${brokerUrl}
 connected
 
-write 65        # Size int32
+write 75        # Size int32
 write 32s       # ApiKey int16 (DescribeConfigs)
 write 0s        # ApiVersion int16
 write ${newMetadataRequestId} # CorrelationId int32
 write -1s       # ClientId string (null)
 write 1         # resources count
 write [0x02]    # resource type (topic is 2, from org/apache/kafka/common/resource/ResourceType.java)
-write 7s "compact"          # topic name
+write 17s "compact.retention"          # topic name
 write 2         # config names count
 write 14s "cleanup.policy"  # config name
 write 19s "delete.retention.ms"  # config name
 
-read (int:size)         # Size int32 58 + 2 + 19 + 2 + 8 + 3 = 92
+read 99         # Size int32
 read ${newMetadataRequestId} # CorrelationId int32
 read [0..4]     # throttle_time_ms int32
 read 1          # resources count
 read 0s         # error code
 read -1s        # error message
 read [0x02]     # resource type (topic)
-read 7s "compact"           # topic name
+read 17s "compact.retention"           # topic name
 read 2          # config entries count
 read 14s "cleanup.policy"   # config name
 read 7s "compact"           # config value
@@ -48,9 +48,9 @@ read [0x00]     # read_only boolean
 read [0x00]     # is_default boolean
 read [0x00]     # is_sensitive boolean
 read 19s "delete.retention.ms"   # config name
-read 8s "86400000"           # config value
+read 5s "10000"           # config value
 read [0x00]     # read_only boolean
-read [0x01]     # is_default boolean
+read [0x00]     # is_default boolean
 read [0x00]     # is_sensitive boolean
 
 
