@@ -92,7 +92,7 @@ write 0s                                    # error code
 write -1s                                   # error message
 
 read aborted
-write abort
+write aborted
 
 accepted
 connected
